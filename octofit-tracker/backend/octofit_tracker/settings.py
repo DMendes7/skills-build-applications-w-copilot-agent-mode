@@ -25,7 +25,8 @@ SECRET_KEY = "django-insecure-h_n!3_g$i4)0gv^@8%fqdh3l7#i^80x-o=)c&e3h1)bygocz=-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# Allow host access to codespace URL and localhost
+ALLOWED_HOSTS = ['improved-space-palm-tree-7vv4p9xgqq9f46p-8000.app.github.dev', 'localhost']
 
 
 # Application definition
@@ -37,6 +38,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'rest_framework',
+    'octofit_tracker',
 ]
 
 MIDDLEWARE = [
@@ -78,7 +81,17 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'octofit_db',
+        'ENFORCE_SCHEMA': False,  # Adicionado para evitar problemas de schema
+        'CLIENT': {
+            'host': 'localhost',
+            'port': 27017,
+        },
     }
+}
+
+DATABASES['default']['OPTIONS'] = {
+    'disable_constraint_checking': True,  # Desativa verificações de restrições
+    'strict': False  # Desativa validações estritas
 }
 
 # CORS Configuration
@@ -101,8 +114,6 @@ CORS_ALLOW_HEADERS = [
     'content-type',
     'authorization',
 ]
-
-ALLOWED_HOSTS = ['*']
 
 
 # Password validation
